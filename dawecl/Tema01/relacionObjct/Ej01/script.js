@@ -3,7 +3,7 @@ const salaries =
         "Pete":300,
         "Doe":400,
         "Mary":250,
-        "Raul":10   };
+        "Raul":10};
 
 function sumaSalarios(){
     let totalSalarios = 0;

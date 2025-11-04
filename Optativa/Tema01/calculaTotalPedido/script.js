@@ -1,6 +1,9 @@
+const TASA_ENVIO_LOCAL = 10;
+const TASA_ENVIO_EXTRANGERO = 25;
+const IMPUESTO_POR_PRODUCTO = 1.15;
 
 function calcularTotalProducto(comanda) {
-    const IMPUESTO_POR_PRODUCTO = 1.15;
+
 
     let total = 0;
     for (let i = 0; i < comanda.listaProductos.length; i++) {
@@ -11,21 +14,22 @@ function calcularTotalProducto(comanda) {
 }
 
 function aplicarDescuentos(comanda, total){
-    if (comanda.coupon) {
+
+    /*if (comanda.coupon) {
         if (comanda.coupon.type === 'percent') {
-// Descuento porcentual
+
             total = total * (1 - comanda.coupon.value / 100);
         } else if (comanda.coupon.type === 'fixed') {
-// Descuento fijo
+
             total = total - comanda.coupon.value;
         }
     }
-    return total;
+    return total;*/
+    return comanda.coupon.type ==='precent' ? total * (1-comanda.coupon.value / 100) : total - comanda.coupon.value;
 }
 
 function sumarPrecioEnvio(comanda, total) {
-    const TASA_ENVIO_LOCAL = 10;
-    const TASA_ENVIO_EXTRANGERO = 25;
+
 
     if(!comanda.shipping) return total;
 
@@ -37,10 +41,10 @@ function mostrarPrecioTotal(total) {
     console.log("Total Sucio:", total);
 }
 
-// Ejemplo de uso:
+
 const sampleOrder = {
     listaProductos: [{ price: 50, quantity: 2 }, { price: 100, quantity: 1 }],
-    coupon: { type: 'percent', value: 10 }, // 10% de descuento
+    coupon: { type: 'percent', value: 10 },
     shipping: { country: 'CA' }
 };
 

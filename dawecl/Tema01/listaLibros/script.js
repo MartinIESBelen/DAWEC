@@ -1,59 +1,83 @@
+// --- LISTA DE LIBROS ---
+const libros = [
+    { titulo: "Cien años de soledad", genero: "Realismo mágico", autores: ["Gabriel García Márquez"], paginas: 471, fechaPublicacion: "1967/01/01" },
+    { titulo: "El Hobbit", genero: "Fantasía", autores: ["J.R.R. Tolkien"], paginas: 310, fechaPublicacion: "1937/10/13" },
+    { titulo: "1984", genero: "Ciencia ficción", autores: ["George Orwell"], paginas: 328, fechaPublicacion: "1949/06/26" },
+    { titulo: "Good Omens", genero: "Fantasía", autores: ["Neil Gaiman", "Terry Pratchett"], paginas: 432, fechaPublicacion: "1990/08/07" },
+    { titulo: "La sombra del viento", genero: "Misterio", autores: ["Carlos Ruiz Zafón"], paginas: 565, fechaPublicacion: "2001/11/03" },
+    { titulo: "Fundación", genero: "Ciencia ficción", autores: ["Isaac Asimov"], paginas: 255, fechaPublicacion: "1951/04/22" }
+];
+
+// Saca los libros con mas de x cantidad e paginas
+function librosMasDeXPaginas(listaLibros, numeroPaginas) {
+    console.log(`Libros con más de ${numeroPaginas} páginas:`);
+    return listaLibros.filter(l => l.paginas > numeroPaginas).map(l => l.titulo);
+}
+
+//Saca los titulos de los libros con una fecha de salida
+function librosMasDeXFechas(listaLibros, fecha) {
+    const fechaRef = new Date(fecha);
+    return listaLibros
+        .filter(l => new Date(l.fechaPublicacion) < fecha)
+        .map(l => l.titulo);
+}
+
+//Filtra los libros con un autor
+function librosConUnAutor(libros) {
+    console.log("Libros con un único autor:");
+    return libros.filter(l => l.autores.length === 1).map(l => l.titulo);
+}
+
+//Contar el numero de libros que tiene cada autor
+function contarLibrosPorAutor(listaLibros) {
+
+    const contador = libros.reduce((acc, libro) => {
+        libro.autores.forEach((autor) => {acc[autor] = (acc[autor] || 0) + 1
+        });
+        return acc;
+    }, {});
+
+    return contador;
+}
+
+function renderizarTitulos(listaTitulos, id) {
+    return document.getElementById("listaTitulos").innerHTML += listaTitulos.join("<br>")
+}
+
+// Pintar contador de libros por autor
+function renderizarLista(lista) {
+    const div = document.createElement("div");
+    div.innerHTML = lista.join("<br>") + "<br><br>";
+    document.body.appendChild(div);
+}
+
+function renderizarContador(contador) {
+    const div = document.createElement("div");
+    const texto = Object.entries(contador)
+        .map(([autor, cantidad]) => `${autor}: ${cantidad}`)
+        .join("<br>");
+    div.innerHTML = texto + "<br><br>";
+    document.body.appendChild(div);
+}
+
+// --- Ejecución ---
+
+const titulosPaginas = librosMasDeXPaginas(libros, 400);
+renderizarLista(titulosPaginas);
+
+const titulosAntiguos = librosMasDeXFechas(libros, "2000/01/01");
+renderizarLista(titulosAntiguos);
+
+const titulosUnAutor = librosConUnAutor(libros);
+renderizarLista(titulosUnAutor);
+
+const contador = contarLibrosPorAutor(libros);
+renderizarContador(contador);
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // --- LISTA DE LIBROS ---
-    const libros = [
-        { titulo: "Cien años de soledad", genero: "Realismo mágico", autores: ["Gabriel García Márquez"], paginas: 471, fechaPublicacion: 1967 },
-        { titulo: "El Hobbit", genero: "Fantasía", autores: ["J.R.R. Tolkien"], paginas: 310, fechaPublicacion: 1937 },
-        { titulo: "1984", genero: "Ciencia ficción", autores: ["George Orwell"], paginas: 328, fechaPublicacion: 1949 },
-        { titulo: "Good Omens", genero: "Fantasía", autores: ["Neil Gaiman", "Terry Pratchett"], paginas: 432, fechaPublicacion: 1990 },
-        { titulo: "La sombra del viento", genero: "Misterio", autores: ["Carlos Ruiz Zafón"], paginas: 565, fechaPublicacion: 2001 },
-        { titulo: "Fundación", genero: "Ciencia ficción", autores: ["Isaac Asimov"], paginas: 255, fechaPublicacion: 1951 }
-    ];
-
-    // --- FUNCIONES DE CONSOLA ---
-    function librosMasDeXPaginas(x) {
-        console.log(`Libros con más de ${x} páginas:`);
-        libros.filter(l => l.paginas > x).forEach(l => console.log(`- ${l.titulo}`));
-    }
-
-    function librosMasDeXAnios(x) {
-        const anioActual = new Date().getFullYear();
-        console.log(`Libros publicados hace más de ${x} años:`);
-        libros.filter(l => anioActual - l.fechaPublicacion > x).forEach(l => console.log(`- ${l.titulo}`));
-    }
-
-    function librosConUnAutor() {
-        console.log("Libros con un único autor:");
-        libros.filter(l => l.autores.length === 1).forEach(l => console.log(`- ${l.titulo}`));
-    }
-
-    function contarLibrosPorAutor() {
-        const contador = {};
-        libros.forEach(l => {
-            l.autores.forEach(a => {
-                contador[a] = (contador[a] || 0) + 1;
-            });
-        });
-        console.log("Número de libros por autor:");
-        for (let autor in contador) {
-            console.log(`${autor}: ${contador[autor]}`);
-        }
-    }
-
-    // --- LLAMADAS DE PRUEBA EN CONSOLA ---
-    librosMasDeXPaginas(400);
-    librosMasDeXAnios(30);
-    librosConUnAutor();
-    contarLibrosPorAutor();
-
-    // --- CREAR ELEMENTOS HTML DINÁMICAMENTE ---
-    const contenedor = document.createElement("div");
-    contenedor.style.padding = "20px";
-    document.body.appendChild(contenedor);
-
-    const titulo = document.createElement("h1");
-    titulo.textContent = "Lista de Libros";
-    contenedor.appendChild(titulo);
 
     // --- CONTROL DE ORDENACIÓN ---
     const ordenarPor = document.createElement("select");
