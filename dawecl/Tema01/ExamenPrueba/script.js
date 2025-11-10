@@ -2,18 +2,6 @@ import {genders} from "./filtrospelis.js";
 import {pelis} from "./filmList.js";
 import {countries} from "./filtrospelis.js";
 
-/*function buscarTitulo(peliculas, nombre){
-    return peliculas.filter(peli => peli.Title.toLowerCase().includes(nombre.toLowerCase()));
-}
-
-function buscarDirector(peliculas, director){
-    return pelis.filter(peli => peli.Director.toLowerCase().includes(director.toLowerCase()));
-}
-
-function buscarActores(pelis, actor){
-    return pelis.filter(peli => peli.Actors.toLowerCase().includes(actor.toLowerCase()));
-}*/
-
 function filtrarPorCampo(peliculas,campos, datoBuscar){
     return peliculas.filter(peli => {
         return campos.some(c => {
@@ -34,7 +22,6 @@ function filtrarPorGenero(peliculas, generos){
         const generosPelis = p.Genre.toLowerCase().split(",").map(g=>g.trim());
         return generos.some(g => generosPelis.includes(g.toLowerCase()));
     })
-
     return peliculasFiltradas.sort((a, b) => a.Title.localeCompare(b.Title))
 }
 
@@ -44,7 +31,9 @@ function filtrarPorGenero(peliculas, generos){
 
 function filtrarPorPaises(peliculas, pais){
     const listaFiltrada = peliculas.filter(p => {
-        return p.Country.some(c => c.toLowerCase() === pais.toLowerCase())
+        const paises = p.Country.map(c => c.toLowerCase())
+
+        return paises.includes(pais.toLowerCase());
     });
     return listaFiltrada.sort((a, b) => a.Title.localeCompare(b.Title));
 }
@@ -52,8 +41,14 @@ function filtrarPorPaises(peliculas, pais){
 //console.log(filtrarPorPaises(pelis, "USE"));
 
 function agruparGeneros(){
-    return Array.from(document.querySelectorAll("#genero input[type='checkbox']:checked"))
-        .map(s => s.value);
+    const generosCheck = Array.from(document.querySelectorAll("#genero input[type='checkbox']:not(#checkTodo)"));
+    const cbTodo = document.getElementById("checkTodo");
+    if(cbTodo && cbTodo.checked){
+        generosCheck.forEach((g) =>g.checked = false );
+        return genders;
+    }
+    const selecionados = generosCheck.filter(c => c.checked).map(c => c.value);
+    return selecionados.length > 0 ? selecionados : genders;
 }
 
 function agruparCampos(){
@@ -69,75 +64,65 @@ function optenerPeliculasFiltradas(){
     const generos = agruparGeneros();
     const campos = agruparCampos();
     const text = document.getElementById("inputBusqueda").value;
-    let listaGeneros = filtrarPorGenero(pelis, generos);
-    let listaCampos = filtrarPorCampo(pelis, campos, text);
+    const pais = document.getElementById("paises").value;
 
-    //let resultado =[...new Set([...listaGeneros, ...listaCampos])] ;
+    let listaFinal = [...pelis]
 
-    return  [...listaGeneros, ...listaCampos]
-        .filter((p, index, self) =>
-            index === self.findIndex(o => o.Title === p.Title)
-        );
+    if(campos.length > 0 && text.trim() !== ""){
+        listaFinal = filtrarPorCampo(listaFinal, campos, text);
+
+        if(listaFinal.length === 0)return [];
+    }
+
+    if (generos.length > 0)listaFinal = filtrarPorGenero(listaFinal, generos);
+
+    if(pais === null)listaFinal = filtrarPorPaises(listaFinal, pais);
+    return listaFinal;
 }
 
 function mostrarPeliculas(resultado){
-    /*console.log("✔ Función mostrarPeliculas ejecutada");
-    const generos = agruparGeneros();
-    const campos = agruparCampos();
-    const text = document.getElementById("inputBusqueda").value;
-    let listaGeneros = filtrarPorGenero(pelis, generos);
-    let listaCampos = filtrarPorCampo(pelis, campos, text);
 
-    //let resultado =[...new Set([...listaGeneros, ...listaCampos])] ;
+    const contenedorPeliculas = document.getElementById("resultado");
+    const infoPelis = document.getElementById("informacion");
 
-    let resultado = [...listaGeneros, ...listaCampos]
-        .filter((p, index, self) =>
-            index === self.findIndex(o => o.Title === p.Title)
-        );*/
+    infoPelis.innerHTML = "";
+    if(contenedorPeliculas.length === 0){
+        contenedorPeliculas.innerHTML = `<p>No se encontraron peliculas con estas caracteristicas</p>`;
+    }
 
-    document.getElementById("resultado").innerHTML =
+    contenedorPeliculas.innerHTML =
         resultado.map(p => `<p>${p.Title}</p>
                             <img width="300" height="230" src="${optenerImagen(p)}""></img>
                             <button type="button" class="btnInfo" data-titulo="${p.Title}">Información</button>
                             <br>
                             <p>${p.Genre.split(",")
-                                        .map(g => `<label style="background-color: blue">${g}</label>`)
-                                        .join(" ")}</p>`)
-                    .join("");
+            .map(g => `<label style="background-color: blue">${g}</label>`)
+            .join(" ")}</p>`)
+            .join("");
 
     const botones = document.querySelectorAll(".btnInfo");
-    botones.forEach(botone => {
-        botone.addEventListener("click", () =>{
-            let titulo = botone.dataset.titulo;
+
+    botones.forEach(boton => {
+        boton.addEventListener("click", () =>{
+            let titulo = boton.dataset.titulo;
             const peli = pelis.find(p => p.Title === titulo);
             mostrarInformacionPeli(peli);})
     })
 }
 
+
 function mostrarInformacionPeli(peli){
-    document.getElementById("informacion").innerHTML =
-        `<div>
-        <p>${peli.Title}</p>
-        <p>${peli.Year}</p>
-        <p>${peli.Rated}</p>
-        <p>${peli.Released}</p>
-        <p>${peli.Runtime}</p>
-        <p>${peli.Genre}</p>
-        <p>${peli.Director}</p>
-        <p>${peli.Writer}</p>
-        <p>${peli.Actors}</p>
-        <p>${peli.Plot}</p>
-        <p>${peli.Language}</p>
-        <p>${peli.Country.map(c => `<label>${c}</label>`).join("")}</p>
-        <p>${peli.Awards}</p>
-        <p>${peli.Poster}</p>
-        <p>${peli.Metascore}</p>
-        <p>${peli.imdbRating}</p>
-        <p>${peli.imdbVotes}</p>
-        <p>${peli.imdbID}</p>
-        <p>${peli.Type}</p>
-        <p>${peli.Response}</p>
-        </div>`;
+    const htmlInfoPeli = document.getElementById("informacion")
+
+    const contenido = Object.entries(peli)
+        .map(([clave,valor])=>{
+            if(Array.isArray(valor)){
+                valor = valor.join(", ")
+            }
+            return `<p><strong>${clave}</strong> : ${valor}</p>`
+        })
+        htmlInfoPeli.innerHTML = `<div>${contenido}</div>`;
+
 }
 
 //console.log(filtrarPorPaises(pelis, "USA").map(p => p.Title + " | Paises: " + p.Country));
@@ -154,6 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <input type="checkbox" id="titulo" value="Title"><label for="titulo">Titulo</label>
         <input type="checkbox" id="director" value="Director"><label for="director">Director</label>
         <input type="checkbox" id="actor" value="Actors"><label for="actor">Actor</label>
+        </div>
+        <br>
+        <div>
+        <label id="pais">Countries:</label>
+        <select id="paises">
+        <option value="todosPaises">Todos</option>
+        ${countries.map(c => `<option value="${c}">${c}</option>`)}
+        </select>
         </div>
         <br>
         <div id="genero">
