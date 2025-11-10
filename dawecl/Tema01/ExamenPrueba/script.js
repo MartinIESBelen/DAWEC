@@ -44,7 +44,7 @@ function agruparGeneros(){
     const generosCheck = Array.from(document.querySelectorAll("#genero input[type='checkbox']:not(#checkTodo)"));
     const cbTodo = document.getElementById("checkTodo");
     if(cbTodo && cbTodo.checked){
-        generosCheck.forEach((g) =>g.checked = false );
+        generosCheck.forEach((g) =>g.checked = true );
         return genders;
     }
     const selecionados = generosCheck.filter(c => c.checked).map(c => c.value);
@@ -76,11 +76,11 @@ function optenerPeliculasFiltradas(){
 
     if (generos.length > 0)listaFinal = filtrarPorGenero(listaFinal, generos);
 
-    if(pais === null)listaFinal = filtrarPorPaises(listaFinal, pais);
+    if(pais !== "todosPaises")listaFinal = filtrarPorPaises(listaFinal, pais);
     return listaFinal;
 }
 
-function mostrarPeliculas(resultado){
+function mostrarPeliculas(peliculasFiltradas){
 
     const contenedorPeliculas = document.getElementById("resultado");
     const infoPelis = document.getElementById("informacion");
@@ -91,14 +91,16 @@ function mostrarPeliculas(resultado){
     }
 
     contenedorPeliculas.innerHTML =
-        resultado.map(p => `<p>${p.Title}</p>
-                            <img width="300" height="230" src="${optenerImagen(p)}""></img>
-                            <button type="button" class="btnInfo" data-titulo="${p.Title}">Información</button>
-                            <br>
-                            <p>${p.Genre.split(",")
-            .map(g => `<label style="background-color: blue">${g}</label>`)
-            .join(" ")}</p>`)
-            .join("");
+        peliculasFiltradas.map(p => `<div class ="cartel" data-titulo="${p.Title}">
+                                <p>${p.Title}</p>
+                                <img width="300" height="230" src="${optenerImagen(p)}""></img>
+                                <button type="button" class="btnInfo" data-titulo="${p.Title}">Información</button>
+                                <br>
+                                <p>${p.Genre.split(",")
+                                            .map(g => `<label style="background-color: blue">${g}</label>`)
+                                            .join(" ")}</p>
+                            </div>`)
+                .join("");
 
     const botones = document.querySelectorAll(".btnInfo");
 
@@ -106,6 +108,11 @@ function mostrarPeliculas(resultado){
         boton.addEventListener("click", () =>{
             let titulo = boton.dataset.titulo;
             const peli = pelis.find(p => p.Title === titulo);
+            document.querySelectorAll(".cartel").forEach(c => c.style.backgroundColor = "")
+            const cartelPeli = document.querySelector(`.cartel[data-titulo="${titulo}"]`);
+            if(cartelPeli){
+                cartelPeli.style.backgroundColor = "lightblue";
+            }
             mostrarInformacionPeli(peli);})
     })
 }
@@ -113,16 +120,7 @@ function mostrarPeliculas(resultado){
 
 function mostrarInformacionPeli(peli){
     const htmlInfoPeli = document.getElementById("informacion")
-
-    const contenido = Object.entries(peli)
-        .map(([clave,valor])=>{
-            if(Array.isArray(valor)){
-                valor = valor.join(", ")
-            }
-            return `<p><strong>${clave}</strong> : ${valor}</p>`
-        })
-        htmlInfoPeli.innerHTML = `<div>${contenido}</div>`;
-
+        htmlInfoPeli.innerHTML = `<pre>${JSON.stringify(peli,null,2)}</pre>`;
 }
 
 //console.log(filtrarPorPaises(pelis, "USA").map(p => p.Title + " | Paises: " + p.Country));
