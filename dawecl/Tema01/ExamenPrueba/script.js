@@ -91,7 +91,7 @@ function mostrarPeliculas(peliculasFiltradas){
     }
 
     contenedorPeliculas.innerHTML =
-        peliculasFiltradas.map(p => `<div class ="cartel" data-titulo="${p.Title}">
+        peliculasFiltradas.map(p =>`<div class ="cartel" data-titulo="${p.Title}">
                                 <p>${p.Title}</p>
                                 <img width="300" height="230" src="${optenerImagen(p)}""></img>
                                 <button type="button" class="btnInfo" data-titulo="${p.Title}">Información</button>
@@ -108,10 +108,12 @@ function mostrarPeliculas(peliculasFiltradas){
         boton.addEventListener("click", () =>{
             let titulo = boton.dataset.titulo;
             const peli = pelis.find(p => p.Title === titulo);
-            document.querySelectorAll(".cartel").forEach(c => c.style.backgroundColor = "")
+            document.querySelectorAll(".cartel").forEach(c => c.classList.remove("selecionador"));
             const cartelPeli = document.querySelector(`.cartel[data-titulo="${titulo}"]`);
             if(cartelPeli){
-                cartelPeli.style.backgroundColor = "lightblue";
+                //cartelPeli.style.backgroundColor = "lightblue";
+                cartelPeli.classList.add("selecionador")
+
             }
             mostrarInformacionPeli(peli);})
     })

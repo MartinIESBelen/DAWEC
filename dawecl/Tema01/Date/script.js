@@ -120,6 +120,7 @@ const diasNoLectivos = {
     diasFestivos : []
 }
 
+/*
 function esLectivoONo(fecha){
     let fechaInicio = new Date(fecha);
 
@@ -132,4 +133,4 @@ function esLectivoONo(fecha){
     }
     console.log()
 
-}
+}*/
