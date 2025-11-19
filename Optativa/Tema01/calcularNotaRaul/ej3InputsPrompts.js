@@ -7,6 +7,66 @@ document.addEventListener("DOMContentLoaded", () => {
     const TOTAL_NOTAS = 4;
     const NOTA_MAX = 10;
     const NOTA_MIN = 0;
+    const RANGO_NOTAS = {
+        maximo: 10,
+        minimo: 0
+    };
+    const CALIFICACIONES= {
+        suficiente:5,
+        notable:6,
+        sobresaliente:8,
+    }
+
+    function verificarNotaValida(nota){
+        const numero = parseFloat(nota);
+        return !isNaN(numero) && numero > RANGO_NOTAS.minimo && numero < RANGO_NOTAS.minimo;
+    }
+
+    function calcularPromedio(notas){
+        let sumaNotas = notas.reduce((promedio, nota) => promedio + nota, 0);
+        return sumaNotas / TOTAL_NOTAS;
+        //return notas.reduce((suma, nota)=> suma + nota, 0) / TOTAL_NOTAS;
+    }
+
+    function optenerCalificacion(promedio){
+        if (promedio < CALIFICACIONES.suficiente) return {estado: "supendido", nombre: "suspenso"};
+        if (promedio < CALIFICACIONES.notable)return {estado: "aprobado", nombre: "suficiente"};
+        if(promedio < CALIFICACIONES.sobresaliente) return {estado: "aprobado", nombre: "notable"};
+        return {estado: "aprobado", nombre: "sobresaliente"};
+    }
+
+    function formatearNotas(notas){
+        return notas.map((n, i) => `Nota ${i + 1}: ${n}`).join(", ");
+    }
+
+
+    function generarImputs(parent){
+        for(let i = 1; i < TOTAL_NOTAS; i++) {
+            parent.innerHTML = `
+            <label>Nota${i + 1}:</label>
+            <input type="number" data-index="${i}" min="${NOTA_MIN}" max="${NOTA_MAX}"> 
+            `;
+        }
+        parent.innerHTML += `<button id="enviar" type="button">Enviar</button>`;
+    }
+
+    function renderizarResultado(promedio, notas, calificacion){
+        let tabla =document.createElement("table");
+
+        tabla.innerHTML = `
+        <thead>
+            <tr><th>Descripción</th><th>Valor</th></tr>
+        </thead>
+        <tbody>
+            ${notas.map((n, i) => `
+                <tr><td>Nota ${i + 1}</td><td>${n}</td></tr>
+            `).join("")}
+            <tr><td><strong>Promedio</strong></td><td><strong>${promedio}</strong></td></tr>
+            <tr><td><strong>Calificación</strong></td><td><strong>${calificacion}</strong></td></tr>
+        </tbody>
+    `;
+        document.body.appendChild(tabla);
+    }
     const NOTA_SUFICIENTE = 5;
     const NOTA_NOTABLE = 6;
     const NOTA_SOBRESALIENTE = 8;
@@ -22,6 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
         return;
     }
+
+
 
     INPUT_PROMPT == "1" ? usarInputs() : usarPrompt();
 
