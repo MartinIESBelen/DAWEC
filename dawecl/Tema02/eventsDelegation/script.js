@@ -21,5 +21,5 @@ function limpiarElemento(event){
 }
 
 document.addEventListener('mousemove', handleMouseMove);
-document.addEventListener('mousemove', destacarElemento);
+document.addEventListener('mouseover', destacarElemento);
 document.addEventListener('mousemove', limpiarElemento);
