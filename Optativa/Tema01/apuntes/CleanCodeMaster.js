@@ -1,210 +1,228 @@
-/* 🔥🔥 CLEAN CODE JS - MASTER CHEAT SHEET (EXAMEN) 🔥🔥
-   Basado en tus documentos: Magic Numbers, Nested Ifs, Side Effects, Pure Functions.
+/* ⚡⚡ CLEAN CODE JS - GOD MODE CHEAT SHEET ⚡⚡
 
-   🔎 GUÍA RÁPIDA DE REFACTORIZACIÓN (SI VES ESTO -> HAZ ESTO):
-   1. ¿Numeros/Strings sueltos? -> Crea CONSTANTES (UPPER_CASE).
-   2. ¿Más de 2/3 argumentos? -> Pasa un OBJETO como argumento.
-   3. ¿Argumento 'boolean' (true/false)? -> Divide la función en dos.
-   4. ¿If/Else anidados (flecha)? -> Invierte condición y RETURN (Guard Clause).
-   5. ¿.push(), .splice() o = ? -> Usa SPREAD OPERATOR [...] o {...}.
-   6. ¿Usa variables de fuera? -> Pásalas como PARÁMETRO.
+   🔎 BUSCADOR RÁPIDO (CTRL + F):
+   -------------------------------------------------
+   ### 1  :: ARRAYS (Mutaciones, Push, Bucles)
+   ### 2  :: IF / ELSE (Flechas, Guard Clauses)
+   ### 3  :: FUNCIONES (Argumentos, Flags, Naming)
+   ### 4  :: MAGIC NUMBERS & STRINGS
+   ### 5  :: NUEVO: OBJETOS & CLASES (Primitive Obsession)
+   ### 6  :: NUEVO: SEPARACIÓN LÓGICA vs I/O (Pureza)
+   ### 7  :: TESTING SUITE (Copia y pega esto)
+   -------------------------------------------------
 */
 
-// ==============================================================================
-// 1. NAMING & MAGIC NUMBERS (Documento 04)
-// 🚩 Síntoma: Ves números o strings literales que no sabes qué significan.
-// ==============================================================================
-let user = [
-    {   name:"juan",
-        accessLevel: 1,},
-    {   name:"juan",
-        accessLevel: 1,},
-    {   name:"juan",
-        accessLevel: 1,},
-]
 
-function restart() {
+// ============================================================================
+// ### 1 :: MANIPULACIÓN DE ARRAYS (¡PROHIBIDO MUTAR!)
+// 💡 Regla de Oro: Si entran N elementos y salen N -> .map()
+// 💡 Regla de Oro: Si entran N elementos y salen menos -> .filter()
+// ============================================================================
 
+// 1.1 AÑADIR SIN MUTAR (.push es el enemigo)
+// ❌ BAD
+function add(cart, item) {
+    cart.push(item); // ☠ Modifica el array de fuera
+    return cart;
+}
+// ✅ GOOD (Spread)
+function add(cart, item) {
+    return [...cart, item];
 }
 
-// ❌ BAD: ¿Qué es 86400000? ¿Qué es 'admin'?
-setTimeout(restart, 86400000);
-if (user.accessLevel === 5) { "..."}
-
-// ✅ GOOD: Constantes descriptivas (SCREAMING_SNAKE_CASE)
-const MILLISECONDS_PER_DAY = 86_400_000;
-const ADMIN_ACCESS_LEVEL = 5;
-
-setTimeout(restart, MILLISECONDS_PER_DAY);
-if (user.accessLevel === ADMIN_ACCESS_LEVEL) { "..." }
-
-// ❌ BAD: Nombres genéricos o abreviados
-let d; // ¿Día? ¿Distancia?
-let data = ['Juan', 'Ana'];
-
-// ✅ GOOD: Pronunciables y buscables
-let daysSinceCreation;
-let userNames = ['Juan', 'Ana'];
-
-
-// ==============================================================================
-// 2. FUNCIONES: ARGUMENTOS Y FLAGS (Documentos 01 y 02)
-// 🚩 Síntoma: Función con 3+ argumentos o que recibe un booleano.
-// ==============================================================================
-
-// ❌ BAD: Lista larga de argumentos (difícil recordar el orden)
-function createMenu(title, body, buttonText, cancellable) { "..." }
-
-// ✅ GOOD: Objeto como parámetro (Destructuring)
-function createMenu({ title, body, buttonText, cancellable }) { "..." }
-
-createMenu({
-    title: 'Home',
-    body: 'Welcome',
-    buttonText: 'OK',
-    cancellable: true
-});
-
-// --- FLAG ARGUMENTS (El parámetro booleano del mal) ---
-
-// ❌ BAD: La función hace 2 cosas distintas según el flag
-function renderUser(user, isAdmin) {
-    function renderAdmin(user) {
-
-    }
-
-    if (isAdmin) {
-        renderAdmin(user);
-    } else {
-        renderNormalUser(user);
-    }
+// 1.2 ELIMINAR SIN MUTAR (.splice es el enemigo)
+// ❌ BAD
+function remove(cart, index) {
+    cart.splice(index, 1); // ☠ Modifica el array de fuera
+    return cart;
+}
+// ✅ GOOD (Filter)
+function remove(cart, idToRemove) {
+    return cart.filter(item => item.id !== idToRemove);
 }
 
-// ✅ GOOD: Divide y vencerás. Funciones explícitas.
-function renderAdminUser(user) {" ..." }
-function renderNormalUser(user) { "..." }
+// 1.3 TRANSFORMAR DATOS (Evita forEach si creas un array nuevo)
+// ❌ BAD
+const names = [];
+users.forEach(user => names.push(user.name)); // ☠ Efecto secundario
+// ✅ GOOD (Map)
+const names = users.map(user => user.name);
+
+// 1.4 CALCULAR UN TOTAL (Evita variables let externas)
+// ❌ BAD
+let total = 0;
+items.forEach(item => total += item.price);
+// ✅ GOOD (Reduce)
+const total = items.reduce((acc, item) => acc + item.price, 0);
 
 
-// ==============================================================================
-// 3. GUARD CLAUSES & NESTED IF/ELSE (Documentos 03 y 05)
-// 🚩 Síntoma: Código con forma de flecha (>), muchos `else`.
-// ==============================================================================
+// ============================================================================
+// ### 2 :: IF / ELSE / GUARD CLAUSES
+// 💡 Regla: El "camino feliz" (return final) debe estar sin identar.
+// ============================================================================
 
-// ❌ BAD: Ejemplo "Validar Contraseña" (del Doc 05) - Difícil de leer
-function validarContrasena(pass) {
-    if (pass) {
-        if (pass.length >= 8) {
-            if (/\d/.test(pass)) {
-                return "Válida";
+// 2.1 ELIMINAR ELSE (Validaciones primero)
+// ❌ BAD (Hadouken / Arrow Code)
+function login(user) {
+    if (user) {
+        if (user.isActive) {
+            if (checkPass(user)) {
+                return 'Welcome';
             } else {
-                return "Debe tener un número";
+                return 'Wrong Pass';
             }
         } else {
-            return "Mínimo 8 caracteres";
+            return 'Inactive';
         }
     } else {
-        return "No puede estar vacía";
+        return 'No User';
     }
 }
 
-// ✅ GOOD: Guard Clauses (Aplanar el código)
-// Estrategia: Validar lo MALO primero, retornar error, y seguir.
-function validarContrasena(pass) {
-    if (!pass) return "No puede estar vacía";
-    if (pass.length < 8) return "Mínimo 8 caracteres";
-    if (!/\d/.test(pass)) return "Debe tener un número";
+// ✅ GOOD (Guard Clauses - Falla rápido)
+function login(user) {
+    if (!user) return 'No User';            // 1. Validación básica
+    if (!user.isActive) return 'Inactive';  // 2. Estado
+    if (!checkPass(user)) return 'Wrong Pass'; // 3. Lógica
 
-    return "Válida"; // El "Happy Path" al final
+    return 'Welcome'; // 4. Éxito (Happy Path)
 }
 
-// --- TERNARIOS (Documento 03) ---
-// Úsalos para asignaciones simples, evita if/else redundantes.
+// 2.2 EVITAR CONDICIONALES LARGOS
+// ❌ BAD
+if (status === 'open' || status === 'pending' || status === 'reopened') { ... }
+
+// ✅ GOOD (Array includes)
+const VALID_STATUSES = ['open', 'pending', 'reopened'];
+if (VALID_STATUSES.includes(status)) { ... }
+
+
+// ============================================================================
+// ### 3 :: FUNCIONES (ARGUMENTOS Y BANDERAS)
+// 💡 Regla: Máximo 3 argumentos. Si hay más -> Objeto.
+// ============================================================================
+
+// 3.1 DEMASIADOS ARGUMENTOS (Posicionales)
+// ❌ BAD (¿Cuál era el tercero? ¿El email o el rol?)
+function saveUser(name, email, password, role, isActive) { ... }
+
+// ✅ GOOD (Destructuring - Orden irrelevante)
+function saveUser({ name, email, password, role, isActive }) { ... }
+
+// 3.2 FLAG ARGUMENTS (Booleanos misteriosos)
+// ❌ BAD (Viola principio de responsabilidad única)
+function createFile(name, isTemp) {
+    if (isTemp) { /* ... / } else { / ... */ }
+}
+// ✅ GOOD (Dos funciones claras)
+function createPermanentFile(name) { ... }
+function createTempFile(name) { ... }
+
+
+// ============================================================================
+// ### 4 :: MAGIC NUMBERS Y STRINGS
+// 💡 Regla: Si tienes que explicar qué es el número, necesita una constante.
+// ============================================================================
 
 // ❌ BAD
-let age;
-let message;
-if (age >= 18) {
-    message = 'Adulto';
-} else {
-    message = 'Menor';
-}
+setTimeout(run, 86400000); // ¿Qué es esto?
+if (user.role === 'AD') { ... } // ¿Qué es AD?
 
 // ✅ GOOD
-const message = (age >= 18) ? 'Adulto' : 'Menor';
+const MILLISECONDS_IN_DAY = 86_400_000;
+setTimeout(run, MILLISECONDS_IN_DAY);
+
+const ROLE_ADMIN = 'AD';
+if (user.role === ROLE_ADMIN) { ... }
 
 
-// ==============================================================================
-// 4. EVITAR EFECTOS SECUNDARIOS (Documento 07)
-// 🚩 Síntoma: Usar `.push()`, `.pop()` o modificar propiedades `obj.prop = x`.
-// ⚠️ CRÍTICO: Si modificas el input, afectas a quien llamó la función (Bug del Carrito).
-// ==============================================================================
+// ============================================================================
+// ### 5 :: NUEVO: OBJETOS & PRIMITIVE OBSESSION (Del PDF 01)
+// 💡 Regla: Agrupa datos relacionados en objetos.
+// ============================================================================
 
-// ❌ BAD: Muta el array original (Side Effect)
-const cart = ['Manzana'];
+// 5.1 PRIMITIVE OBSESSION (Muchos datos sueltos que viajan juntos)
+// ❌ BAD
+const x = 10;
+const y = 20;
+const z = 5;
+function move(x, y, z) { ... }
 
-function addToCart(currentCart, item) {
-    currentCart.push(item); // ☠️ ¡Modifica el array original fuera de la función!
-    return currentCart;
+// ✅ GOOD (Objeto Coordenada)
+const point = { x: 10, y: 20, z: 5 };
+function move(point) { ... }
+
+// 5.2 MAPAS/DICCIONARIOS EN LUGAR DE SWITCH
+// ❌ BAD
+function getColor(fruit) {
+    switch(fruit) {
+        case 'apple': return 'red';
+        case 'banana': return 'yellow';
+        default: return 'unknown';
+    }
 }
-
-// ✅ GOOD: Inmutabilidad con Spread Operator (Crea copia nueva)
-function addToCart(currentCart, item) {
-    return [...currentCart, item]; // ✨ Crea un NUEVO array con lo anterior + item
-}
-
-// ❌ BAD: Mutar objetos
-function approve(user) {
-    user.verified = true; // ☠️ Modifica el objeto original
-}
-
-// ✅ GOOD: Copia con spread
-function approve(user) {
-    return { ...user, verified: true }; // ✨ Nuevo objeto
-}
-
-
-// ==============================================================================
-// 5. TRANSPARENCIA REFERENCIAL & FUNCIONES PURAS (Documento 06)
-// 🚩 Síntoma: Usar variables globales, `Date.now()`, `Math.random()` dentro.
-// Regla: Misma entrada -> SIEMPRE Misma salida.
-// ==============================================================================
-
-// ❌ BAD: Depende de variable externa (Impura)
-let globalTax = 21;
-function calculateTotal(price) {
-    return price + (price * globalTax / 100); // Si globalTax cambia, el resultado cambia
-}
-
-// ✅ GOOD: Dependencia explícita (Pura)
-function calculateTotal(price, taxRate) {
-    return price + (price * taxRate / 100);
-}
-
-// ❌ BAD: Depende del tiempo actual (Impura, difícil de testear)
-function isOfferExpired(offerDate) {
-    const now = Date.now(); // ☠️ Oculto dentro
-    return offerDate < now;
-}
-
-// ✅ GOOD: Inyectar la dependencia (Pura)
-function isOfferExpired(offerDate, currentDate) {
-    return offerDate < currentDate;
+// ✅ GOOD
+const FRUIT_COLORS = {
+    apple: 'red',
+    banana: 'yellow'
+};
+function getColor(fruit) {
+    return FRUIT_COLORS[fruit] || 'unknown';
 }
 
 
-// ==============================================================================
-// 6. LIMPIEZA GENERAL (Documento 02)
-// 🚩 Síntoma: Comentarios innecesarios, código muerto.
-// ==============================================================================
+// ============================================================================
+// ### 6 :: NUEVO: SEPARAR LÓGICA vs I/O (Del PDF 06 y 07)
+// 💡 Regla: Las funciones que CALCULAN no deben GUARDAR ni IMPRIMIR.
+// ============================================================================
 
-// ❌ BAD: Comentarios de "diario" o código comentado
-// 2023-10-01: Arreglado el bug por Pepe
-// function old() { ... }
-function sum(a, b) {
-    return a + b; // Suma a y b
+// ❌ BAD (Mezcla cálculo con efecto secundario)
+function calculateAndPrint(price) {
+    const result = price * 1.21;
+    console.log("El precio es: " + result); // ⚠ Side Effect (I/O)
+    document.getElementById('price').innerHTML = result; // ⚠ Side Effect (DOM)
 }
 
-// ✅ GOOD: El código se explica solo. Borra lo viejo (para eso está Git).
-function sum(a, b) {
-    return a + b;
+// ✅ GOOD (Separación de Responsabilidades)
+// 1. Función Pura (Solo calcula)
+function calculateTax(price) {
+    return price * 1.21;
 }
+
+// 2. Función Impura (Maneja la UI/Consola)
+function displayPrice(price) {
+    const finalPrice = calculateTax(price);
+    console.log("El precio es: " + finalPrice);
+}
+
+
+// ============================================================================
+// ### 7 :: TESTING SUITE (COPIAR AL FINAL DEL EXAMEN)
+// 💡 Instrucciones: Pega esto abajo, cambia 'tuFuncion' y los datos.
+// ============================================================================
+
+// --- DATOS DUMMY ---
+const mockData = [10, 20, 30];
+
+// --- CASOS DE PRUEBA ---
+const testCases = [
+    { input: mockData, expected: 60, desc: "Suma normal" },
+    { input: [],       expected: 0,  desc: "Array vacío" },
+    { input: [5],      expected: 5,  desc: "Un elemento" }
+];
+
+// --- RUNNER ---
+function runTests(cases) {
+    console.log("%c🧪 TEST RUNNER INICIADO", "color: violet; font-weight: bold");
+    cases.forEach((t, i) => {
+        try {
+            // 👇👇 CAMBIA 'tuFuncion' POR EL NOMBRE DE TU FUNCIÓN 👇👇
+            const result = tuFuncion(t.input);
+
+            const passed = JSON.stringify(result) === JSON.stringify(t.expected);
+            if (passed) console.log(✅ Test ${i+1} (${t.desc}): PASSED);
+        else console.error(❌ Test ${i+1} (${t.desc}): FAILED. Exp: ${t.expected}, Got: ${result});
+        } catch (e) { console.error(💥 Error en Test ${i+1}:, e); }
+    });
+}
+// runTests(testCases); // Descomentar para correr
