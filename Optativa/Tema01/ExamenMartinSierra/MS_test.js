@@ -1,5 +1,3 @@
-/*
-
 //Salra error y no se porque
 import {calcularMedia} from './MS_sript';
 
@@ -25,4 +23,4 @@ export function runtest(){
     });
 }
 
-runtest();*/
+runtest();
