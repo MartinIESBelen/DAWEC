@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+</head>
+<body>
+    <script src="script.js"></script>
+    <form>
+        <div>
+            <label for="username">Name:</label>
+            <label for="userAge">Age:</label>
+            <input type="text" name="username" id="username" placeholder="Enter your name">
+            <input type="number" name="userAge" id="userAge" placeholder="Enter your age">
+        </div>
+        <!--Select country-->
+        <select name="countries" id="countries" >
+            <option value="Spain">Spain</option>
+            <option value="France">France</option>
+            <option value="Germany">Germany</option>
+        </select>
+
+        <!--Hobbies choiss-->
+        <div>
+            <label class="form-label">Hobbies:</label><br>
+
+            <input type="checkbox" class="form-check-input hobby" value="Tenis" id="tenis">
+            <label class="form-check-label" for="tenis">Tenis</label>
+
+            <input type="checkbox" class="form-check-input hobby" value="Food" id="food">
+            <label class="form-check-label" for="food">Food</label>
+
+            <input type="checkbox" class="form-check-input hobby" value="Travel" id="travel">
+            <label class="form-check-label" for="travel">Travel</label>
+
+            <input type="checkbox" class="form-check-input hobby" value="Walk" id="walk">
+            <label class="form-check-label" for="walk">Walk</label>
+        </div>
+        <div>
+            <input type="radio" name="" id="male" value="male">
+        </div>
+
+        <div>
+            <label for="flavor">Choose a flavor:</label>
+            <input type="text" name="flavor" id="flavor" placeholder="Choose a flavor">
+        </div>
+    </form>
+</body>
+</html>
