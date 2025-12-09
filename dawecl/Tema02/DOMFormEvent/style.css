@@ -1,0 +1,107 @@
+/* ===========================
+   ESTILO GENERAL
+   =========================== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Contenedor grande */
+#containerMatricula,
+#personaAutorizada {
+    background: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Títulos */
+h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Líneas separadoras */
+hr {
+    margin: 10px 0 20px;
+}
+
+/* ===========================
+   ESTILO DE FORMULARIOS
+   =========================== */
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #fff;
+}
+
+/* Botones principales */
+button {
+    padding: 8px 14px;
+    margin-top: 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Botones + y - */
+#sumar,
+.btnRestar {
+    background-color: #28a745;
+    font-weight: bold;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.btnRestar {
+    background-color: #dc3545;
+}
+
+#sumar:hover {
+    background-color: #1e7e34;
+}
+
+.btnRestar:hover {
+    background-color: #b21f2d;
+}
+
+/* ===========================
+   PERSONAS AUTORIZADAS
+   =========================== */
+.persona {
+    background: #f9fafc;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+}
+
+/* Texto bajo los campos */
+p {
+    font-size: 14px;
+    color: #444;
+}

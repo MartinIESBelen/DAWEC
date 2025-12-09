@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enrollment Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="containerMatricula">
+    <h3>Datos de matrícula</h3>
+    <hr>
+    <p>Centro decente en el que se matricula</p>
+    <label for="provincia">Provincia:*</label>
+    <select id="provincia" name="provincia"></select>
+    <label for="municipio">Municipio:*</label>
+    <select id="municipio" name="municipio"></select>
+    <label for="localidad">Localidad:*</label>
+    <select id="localidad" name="localidad"></select>
+
+    <label for="centros">Centro:*</label>
+    <select id="centros" name="centros">
+        <option value="">Seleccione un centro</option>
+        <option value="ies-rio-guadalquivir">IES Río Guadalquivir</option>
+        <option value="ies-san-isidro">IES San Isidro</option>
+        <option value="ies-maria-zambrano">IES María Zambrano</option>
+        <option value="ceip-los-olivos">CEIP Los Olivos</option>
+        <option value="ceip-alameda">CEIP Alameda</option>
+        <option value="colegio-santa-teresa">Colegio Santa Teresa</option>
+    </select>
+
+    <label for="enseñanza">Enseñanza:*</label>
+    <select id="enseñanza" name="enseñanza">
+        <option value="">Seleccione enseñanza</option>
+        <option value="infantil">Educación Infantil</option>
+        <option value="primaria">Educación Primaria</option>
+        <option value="eso">Educación Secundaria Obligatoria (ESO)</option>
+        <option value="bachillerato">Bachillerato</option>
+        <option value="fp-media">Formación Profesional Grado Medio</option>
+        <option value="fp-superior">Formación Profesional Grado Superior</option>
+    </select>
+
+    <label for="curso">Curso:*</label>
+    <select id="curso" name="curso">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+    </select>
+</div>
+
+<div id="personaAutorizada">
+    <h3>PERSONAS AUTORIZADAS PARA RECOGER A SU HIJO/A DURANTE EL CURSO 2020 / 2021</h3>
+    <hr>
+    <p>Las personas que a continución relaciona podrán recoger a su hijo/a durante el cursu 2020 / 2021 de cualquier servicio del centro:</p>
+    <div id="persona1">
+        <p>1º Persona autorizada</p>
+        <button type="button" id="sumar">+</button>
+        <button type="button" id="restar1">-</button>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre">
+        <label for="primerApellido">Primer apellido:</label>
+        <input type="text" id="primerApellido">
+        <label for="segundoApellido">Segundo apellido:</label>
+        <input type="text" id="segundoApellido">
+
+        <label for="documentacion">Tipo de documentación:</label>
+        <select id="documentacion" name="documentacion"></select>
+        <label for="nif" >NIF/NIE/Pasaporte</label>
+        <input type="text" id="nif">
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono">
+    </div>
+</div>
+<script src="provincias.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
