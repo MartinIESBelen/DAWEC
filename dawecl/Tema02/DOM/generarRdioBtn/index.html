@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Buttons Dinámicos</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .option { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<h2>Selecciona un color:</h2>
+<div id="radioContainer"></div>
+
+<p id="selectedValue">Color seleccionado: Ninguno</p>
+
+<script>
+    // Array de objetos con información de los colores
+    const colors = [
+        { id: 1, name: "Rojo", value: "red" },
+        { id: 2, name: "Verde", value: "green" },
+        { id: 3, name: "Azul", value: "blue" },
+        { id: 4, name: "Amarillo", value: "yellow" },
+        { id: 4, name: "Amarillo", value: "yellow" },
+    ];
+
+    const container = document.getElementById('radioContainer');
+    const selectedText = document.getElementById('selectedValue');
+
+    // Generar los radio buttons dinámicamente
+    colors.map(color => {
+        const div = document.createElement('div');
+        div.classList.add('option');
+
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'color';
+        input.value = color.value;
+        input.id = `color-${color.id}`;
+
+        const label = document.createElement('label');
+        label.htmlFor = `color-${color.id}`;
+        label.textContent = color.name;
+
+        // Detectar cambio en la selección
+        input.addEventListener('change', () => {
+            selectedText.textContent = `Color seleccionado: ${color.name}`;
+        });
+
+        div.appendChild(input);
+        div.appendChild(label);
+        container.appendChild(div);
+    });
+</script>
+
+</body>
+</html>

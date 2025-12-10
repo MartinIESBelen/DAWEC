@@ -55,7 +55,6 @@ function cargarMunicipiosYLocalidades(provinciaCode) {
     }
 }
 
-
 let contadorPersonas = 1;
 
 function generarResponsable() {
@@ -69,7 +68,7 @@ function generarResponsable() {
         
         <div class="persona" id="persona${contadorPersonas}">
             <p>${contadorPersonas}º Persona autorizada</p>
-            <button type="button" class="btnRestar" data-id="${contadorPersonas}">-</button>
+            <button type="button" class="btnRestar" data-idpersona="${contadorPersonas}">-</button>
             
             <label>Nombre:</label>
             <input type="text" class="nombre">
@@ -92,44 +91,34 @@ function generarResponsable() {
 
             <label>Teléfono:</label>
             <input type="text" class="telefono">
-
-            <button type="button" class="btnEliminar">Eliminar</button>
         </div>
         `
     );
 }
 
-function eliminarResponsable(id) {
-    // No permitimos borrar la primera persona
-    if (id === "persona1") return alert("La primera persona no se puede eliminar.");
+function eliminarResponsable(e) {
 
-    const persona = document.getElementById(id);
-    if (persona) persona.remove();
+    if (!e.target.classList.contains("btnRestar")) return;
+
+    // No permitimos borrar la primera persona
+    /*    if (e.target.parentElement.id === "persona1") {
+            alert("La primera persona no se puede eliminar.");
+            return
+        }*/
+    e.target.parentElement.remove();
 }
 
-// ======================================================
-// DELEGACIÓN DE EVENTOS → Captura botones dinámicos
-// ======================================================
-document.addEventListener("click", e => {
-    // Botón +
-    if (e.target.id === "sumar") {
-        generarResponsable();
-    }
-
-    // Botón restar (el propio contenedor)
-    if (e.target.classList.contains("btnRestar")) {
-        const id = "persona" + e.target.dataset.id;
-        eliminarResponsable(id);
-    }
-});
-
-// ==============================
-//  EVENTOS INICIALES
-// ==============================
 document.addEventListener("DOMContentLoaded", () => {
+
+    andalucia = provincias.find(ca => ca.label === "Andalucía");
     cargarProvinciasInicial();
 
     document.getElementById("provincia").addEventListener("change", e => {
         cargarMunicipiosYLocalidades(e.target.value);
     });
+
+    document.getElementById("sumar").addEventListener("click", generarResponsable);
+
+    // delegación de eventos:
+    document.getElementById("personaAutorizada").addEventListener("click", eliminarResponsable)
 });
