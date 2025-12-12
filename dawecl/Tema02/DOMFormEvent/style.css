@@ -105,3 +105,18 @@ p {
     font-size: 14px;
     color: #444;
 }
+
+.error {
+    color: red;
+    font-size: 0.8em;
+    margin: 4px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.input-error {
+    border: 2px solid red;
+}
+

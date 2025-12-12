@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Evento mouseenter / mouseleave con clases</title>
+    <style>
+        #box {
+            width: 150px;
+            height: 150px;
+            background: steelblue;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Clase que se aplicará al posar el ratón */
+        .hoverShape {
+            border-radius: 50%;
+            background: tomato;
+        }
+    </style>
+</head>
+<body>
+
+<div id="box"></div>
+
+<script>
+    const box = document.getElementById("box");
+
+    // Cuando el ratón se posa
+    box.addEventListener("mouseenter", () => {
+        box.classList.add("hoverShape");
+    });
+
+    // Cuando el ratón se va
+    box.addEventListener("mouseleave", () => {
+        box.classList.remove("hoverShape");
+    });
+</script>
+
+</body>
+</html>

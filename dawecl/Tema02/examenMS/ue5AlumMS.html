@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario para Crear/Editar País</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .paises-column {
+            width: 30%;
+        }
+
+        .form-column {
+            width: 70%;
+        }
+
+        form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 3px;
+            box-sizing: border-box;
+        }
+
+        input[readonly] {
+            background-color: #f5f5f5;
+        }
+
+        select[disabled] {
+            background-color: #f5f5f5;
+        }
+
+        .section {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .city-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        .city-row input {
+            flex: 1;
+        }
+
+        .city-row button {
+            padding: 5px 10px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .language-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        .language-row input {
+            flex: 1;
+        }
+
+        .language-row button {
+            padding: 5px 10px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button.add-city, button.add-language {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button.add-city:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        button[type="submit"] {
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        #output {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .paises-list {
+            list-style: none;
+            padding: 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .paises-list li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .paises-list li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .paises-list li.selected {
+            background-color: #d4edda;
+            font-weight: bold;
+        }
+
+        button.reset-form {
+            background: #ff9800;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Gestión de Países de la UE</h1>
+<div class="container">
+    <div class="paises-column">
+        <ul id="paisesList" class="paises-list"></ul>
+    </div>
+    <div class="form-column">
+        <form id="paisForm">
+            <label for="pais">País:</label>
+            <input type="text" id="pais" name="pais" required readonly>
+
+            <label for="poblacion_nacional">Población Nacional:</label>
+            <input type="text" id="poblacion_nacional" name="poblacion_nacional" required>
+
+            <label for="fecha_adhesion">Fecha de Adhesión:</label>
+            <input type="date" id="fecha_adhesion" name="fecha_adhesion" readonly>
+
+            <label for="capital">Capital:</label>
+            <input type="text" id="capital" name="capital" required readonly>
+            <div class="section">
+                <h3>Idiomas</h3>
+                <label for="idioma_oficial">Idioma Oficial:</label>
+                <input type="text" id="idioma_oficial" name="idioma_oficial"  readonly required>
+
+                <h4>Otros Idiomas</h4>
+                <div id="otrosIdiomasContainer"></div>
+                <button type="button" id="addLanguageBtn" class="add-language" onclick="agregarIdiomaManual()">Agregar
+                    Idioma
+                </button>
+            </div>
+
+            <div class="section">
+                <h3>Régimen Político</h3>
+                <label for="regimen_tipo">Tipo:</label>
+                <select id="regimen_tipo" name="regimen_tipo" required>
+                    <option value="">Seleccione un tipo de régimen</option>
+                </select>
+
+                <label for="jefe_estado">Jefe de Estado:</label>
+                <input type="text" id="jefe_estado" name="jefe_estado" required>
+            </div>
+
+            <button type="submit">Mostrar como JSON</button>
+        </form>
+    </div>
+</div>
+
+<textarea id="output" rows="20" cols="80" placeholder="El JSON generado aparecerá aquí..."
+          style="margin-top: 20px; width: 100%;"></textarea>
+<script src="uecountriesMartinSierra.js"></script>
+<script src="scriptMS.js"></script>
+</body>
+</html>
