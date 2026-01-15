@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartelera de Películas</title>
+    <!-- Enlace corregido a la CDN de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<main class="container py-5">
+    <h1 class="mb-4 text-center">🎬 Cartelera de Películas</h1>
+
+    <!-- Sección de Filtros -->
+    <section class="bg-white p-4 rounded shadow-sm mb-4">
+        <div class="row g-3">
+            <!-- Buscador de texto -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Buscar por texto:</label>
+                <input type="text" id="filtro" class="form-control" placeholder="Escribe para buscar...">
+            </div>
+
+            <!-- Checkboxes de campos -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Filtrar en:</label>
+                <div class="d-flex gap-3 pt-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="chTitulo" checked>
+                        <label class="form-check-label" for="chTitulo">Título</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="chDirector">
+                        <label class="form-check-label" for="chDirector">Director</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="chActores">
+                        <label class="form-check-label" for="chActores">Actores</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenedor dinámico de Géneros -->
+            <div class="col-12">
+                <label class="form-label fw-bold">Géneros:</label>
+                <div id="generos-container" class="border p-2 rounded bg-light"></div>
+            </div>
+
+            <!-- Select dinámico de Países -->
+            <div class="col-md-4">
+                <label class="form-label fw-bold">País:</label>
+                <select id="sltPaises" class="form-select"></select>
+            </div>
+
+            <!-- Botón Buscar -->
+            <div class="col-12 text-end">
+                <button type="button" id="btnBuscar" class="btn btn-primary px-5">Buscar Películas</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contador de resultados -->
+    <div id="contador" class="mb-3 fw-bold text-secondary"></div>
+
+    <!-- Contenedor de resultados de películas -->
+    <div id="resultados" class="row"></div>
+</main>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
