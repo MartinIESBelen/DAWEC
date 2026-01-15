@@ -10,7 +10,7 @@ contenedorLista.addEventListener('click', (event) => {
     // Lógica según la clase o dataset del botón
     if (boton.classList.contains('btn-delete')) {
         const idUsuario = boton.dataset.id; // Acceder al data-id [cite: 2501]
-        console.log(Eliminando usuario ${idUsuario});
+        console.log("Eliminando usuario ${idUsuario}");
         // Aquí llamarías a tu función de eliminar
     }
 
