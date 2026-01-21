@@ -8,6 +8,7 @@ function ordenarAlfabetacamentePaises(){
 function idiomasSinRepetir(){
     let idiomas = new Set();
 
+    //datosUE es una lista de objct paises
     datosUE.forEach(p => {
         if(p.idiomas?.oficial){
             p.idiomas.oficial.split(", ").forEach(i => idiomas.add(i.toLowerCase().trim()));

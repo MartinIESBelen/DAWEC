@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación de Formulario - Examen JS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos para los estados de error */
+        .input-error { @apply border-red-500 bg-red-50; }
+        .error-message { @apply text-red-600 text-xs mt-1 font-medium; }
+        .success-banner { @apply bg-green-100 text-green-800 p-4 rounded-lg mb-4 hidden; }
+    </style>
+</head>
+<body class="bg-slate-100 p-8">
+
+<div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-slate-200">
+    <h1 class="text-2xl font-bold mb-6 text-slate-800">Registro de Usuario</h1>
+
+    <div id="successBanner" class="success-banner">¡Datos guardados correctamente!</div>
+
+    <form id="registroForm" novalidate>
+        <!-- CAMPO: NOMBRE -->
+        <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Nombre Completo *</label>
+            <input type="text" id="nombre" class="w-full border p-2 rounded-lg outline-none focus:border-blue-500 transition-all">
+            <!-- Contenedor del mensaje de error -->
+            <div id="err-nombre" class="error-message"></div>
+        </div>
+
+        <!-- CAMPO: EMAIL -->
+        <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Correo Electrónico *</label>
+            <input type="email" id="email" class="w-full border p-2 rounded-lg outline-none focus:border-blue-500 transition-all">
+            <div id="err-email" class="error-message"></div>
+        </div>
+
+        <!-- CAMPO: TELÉFONO -->
+        <div class="mb-4">
+            <label class="block text-sm font-semibold mb-1">Teléfono (9 dígitos)</label>
+            <input type="text" id="telefono" class="w-full border p-2 rounded-lg outline-none focus:border-blue-500 transition-all">
+            <div id="err-telefono" class="error-message"></div>
+        </div>
+
+        <!-- CAMPO: CATEGORÍA (SELECT) -->
+        <div class="mb-6">
+            <label class="block text-sm font-semibold mb-1">Categoría *</label>
+            <select id="categoria" class="w-full border p-2 rounded-lg outline-none focus:border-blue-500 transition-all">
+                <option value="">Selecciona una...</option>
+                <option value="admin">Administrador</option>
+                <option value="user">Usuario</option>
+            </select>
+            <div id="err-categoria" class="error-message"></div>
+        </div>
+
+        <button type="submit" id="btnGuardar" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-slate-900 transition-colors">
+            Guardar Cambios
+        </button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
