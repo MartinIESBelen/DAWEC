@@ -145,7 +145,7 @@ function eliminarResponsable(e) {
 
 function validarCampo(e) {
     const input = e.target;
-
+    const valor = input.value.trim();
     // Evitar validar el botón o selects sin reglas
     if (!input.classList.contains("nombre") &&
         !input.classList.contains("primerApellido") &&
@@ -153,43 +153,55 @@ function validarCampo(e) {
         !input.classList.contains("nif") &&
         !input.classList.contains("telefono")) return;
 
+    const esObligatorio = input.matches(".nombre, .nif");
+
     let valido = true;
     let mensaje = "";
 
-    if (input.classList.contains("nombre")) {
-        valido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input.value);
-        mensaje = "El nombre solo puede contener letras.";
-    }
+    if(valor === ""){
+        if(esObligatorio){
+            valido = false;
+            mensaje = "No se puede dejar este campo vacio";
+        }else{
+            valido = true;
+        }
+    }else{
+        if (input.classList.contains("nombre")) {
+            valido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input.value);
+            mensaje = "El nombre solo puede contener letras.";
+        }
 
-    if (input.classList.contains("primerApellido")) {
-        valido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input.value);
-        mensaje = "El apellido solo puede contener letras.";
-    }
+        if (input.classList.contains("primerApellido")) {
+            valido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input.value);
+            mensaje = "El apellido solo puede contener letras.";
+        }
 
-    if (input.classList.contains("segundoApellido")) {
-        valido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input.value);
-        mensaje = "El apellido solo puede contener letras.";
-    }
+        if (input.classList.contains("segundoApellido")) {
+            valido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(input.value);
+            mensaje = "El apellido solo puede contener letras.";
+        }
 
-    if (input.classList.contains("nif")) {
-        valido = /^[0-9XYZxyz]\d{7}[A-Za-z]$/.test(input.value);
-        mensaje = "Formato NIF/NIE incorrecto.";
-    }
+        if (input.classList.contains("nif")) {
+            valido = /^[0-9XYZxyz]\d{7}[A-Za-z]$/.test(input.value);
+            mensaje = "Formato NIF/NIE incorrecto.";
+        }
 
-    if (input.classList.contains("telefono")) {
-        valido = /^[679]\d{8}$/.test(input.value);
-        mensaje = "El teléfono debe tener 9 cifras y empezar por 6, 7 o 9.";
+        if (input.classList.contains("telefono")) {
+            valido = /^[679]\d{8}$/.test(input.value);
+            mensaje = "El teléfono debe tener 9 cifras y empezar por 6, 7 o 9.";
+        }
     }
 
     mostrarEstado(input, valido, mensaje);
 }
+
 function mostrarEstado(input, valido, mensaje) {
 
     // Si ya existe un mensaje, lo eliminamos
     const anterior = input.parentElement.querySelector(".error");
     if (anterior) anterior.remove();
 
-    if (valido || input.value === "") {
+    if (valido) {
         input.style.border = "2px solid green";
         return;
     }
@@ -198,7 +210,7 @@ function mostrarEstado(input, valido, mensaje) {
 
     input.insertAdjacentHTML(
         "afterend",
-        `<span class="error" style="color:red; font-size: 12px;">${mensaje}</span>`
+        `<span class="error" style="color:red; font-size: 12px; display:block">${mensaje}</span>`
     );
 }
 document.addEventListener("DOMContentLoaded", () => {
@@ -218,10 +230,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("sumar").addEventListener("click", generarResponsable);
 
+    const contenedorPersonas = document.getElementById("personaAutorizada");
     // delegación de eventos:
-    document.getElementById("personaAutorizada").addEventListener("click", eliminarResponsable);
+    contenedorPersonas.addEventListener("click", eliminarResponsable);
 
     //Validamos campos
-    document.getElementById("personaAutorizada").addEventListener("input", validarCampo);
+    contenedorPersonas.addEventListener("input", validarCampo);
 
+    contenedorPersonas.addEventListener("focusout", validarCampo);
 });
