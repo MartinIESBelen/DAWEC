@@ -1,24 +1,6 @@
 // Objeto JSON proporcionado (asumido como una variable global en el entorno del examen)
 const datosUE = [
-    {
-        "pais": "Alemania",
-        "poblacion_nacional": 83600000,
-        "capital": "Berlín",
-        "ciudades_principales": [
-            {"nombre": "Berlín", "poblacion": 3520000},
-            {"nombre": "Hamburgo", "poblacion": 1790000},
-            {"nombre": "Múnich", "poblacion": 1450000}
-        ],
-        "idiomas": {
-            "oficial": "Alemán",
-            "otros_idiomas": "Danés, bajo alemán"
-        },
-        "regimen_politico": {
-            "tipo": "República parlamentaria federal",
-            "jefe_estado": "Presidente Frank-Walter Steinmeier"
-        },
-        "fecha_adhesion": "1958-01-01"
-    },
+
     {
         "pais": "Austria",
         "poblacion_nacional": 9660000,
@@ -103,6 +85,25 @@ const datosUE = [
             "jefe_estado": "Presidente Nikos Christodoulides"
         },
         "fecha_adhesion": "2004-05-01"
+    },
+    {
+        "pais": "Alemania",
+        "poblacion_nacional": 83600000,
+        "capital": "Berlín",
+        "ciudades_principales": [
+            {"nombre": "Berlín", "poblacion": 3520000},
+            {"nombre": "Hamburgo", "poblacion": 1790000},
+            {"nombre": "Múnich", "poblacion": 1450000}
+        ],
+        "idiomas": {
+            "oficial": "Alemán",
+            "otros_idiomas": "Danés, bajo alemán"
+        },
+        "regimen_politico": {
+            "tipo": "República parlamentaria federal",
+            "jefe_estado": "Presidente Frank-Walter Steinmeier"
+        },
+        "fecha_adhesion": "1958-01-01"
     },
     {
         "pais": "Croacia",

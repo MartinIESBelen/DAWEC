@@ -108,7 +108,7 @@ function validarCampos() {
     const valorJefe = inputJefe.value;
 
     // Regex: \d busca cualquier dígito del 0 al 9 en el texto
-    if (/\d/.test(valorJefe)) {
+    if (/\d/.test(valorJefe) || valorJefe.trim().length > 100) {
         mostrarError(inputJefe, "Error: El nombre no puede contener números.");
         esTodoCorrecto = false;
     }
@@ -127,10 +127,11 @@ function convertirFecha(fechaStr) {
 
 function generarPaises() {
     const paisesUl = document.getElementById("paisesList");
-    const listaOrdenada = [...datosUE].sort((a, b) => a.pais.localeCompare(b.pais));
+    const listaSinOrdenar = [...datosUE].map(p => p.pais);
+    const listaOrdenada = listaSinOrdenar.sort((a, b) => a.localeCompare(b));
 
     paisesUl.innerHTML = listaOrdenada
-        .map(p => `<li value="${p.pais}">${p.pais}</li>`)
+        .map(p => `<li value="${p}">${p}</li>`)
         .join('');
 }
 

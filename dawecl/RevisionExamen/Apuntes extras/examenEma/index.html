@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .form-group{
+        display: flex;
+        flex-direction: row;
+
+    }
+    .form-d{
+        margin: 10px;
+        padding: 10px;
+    }
+</style>
+<body>
+
+<form>
+    <div class="form-group">
+        <div class="form-d">
+            <label for="sltFiltro">Filtrar por Cargas:</label>
+            <br>
+            <select id="sltFiltro" name="sltFiltro"></select>
+        </div>
+        <div class="form-d">
+            <label>Estado Operativo:</label>
+            <br>
+            <label for="rdTodos">Todos</label>
+            <input type="radio" name="estado" id="rdTodos" value="Todos">
+            <label for="rdDisponibles">Disponibles</label>
+            <input type="radio" name="estado" id="rdDisponibles" value="Disponibles">
+            <label for="rdFuera">Fuera de servicio</label>
+            <input type="radio" name="estado" id="rdFuera" value="Fuera de servicio">
+        </div>
+        <div class="form-d">
+            <label>Finanzas:</label>
+            <br>
+            <input type="button" id="btnGeberarReporte" value="Generar Reporte Costos">
+        </div>
+        <div class="form-d">
+            <label>Asignación inteligente:</label>
+            <br>
+            <input type="number" id="asignacionInteligente" value="Ej:80">
+            <button type="button" id="buscar">Buscar vehiculo</button>
+        </div>
+    </div>
+</form>
+<div id="contenedorVehiculos"></div>
+<div id="contenedorReporte"></div>
+<script type="module" src="script.js"></script>
+<script src="data.js"></script>
+</body>
+</html>
