@@ -9,10 +9,10 @@ let comunidadActual = null;
 function ordenarPorNombreOPoblacion(lista){
     const filtro = document.getElementById("sltFiltro").value;
 
-    if(filtro === "Nombre"){
+    if(filtro === "nombre"){
         return lista.sort((a, b) => a.nombre.localeCompare(b.nombre));
     }else if(filtro === "poblacionTotal"){
-        return lista.sort((a, b) => a.poblacion_total - b.poblacion_total);
+        return lista.sort((a, b) => b.poblacion_total - a.poblacion_total);
     }
     return lista;
 }
@@ -34,6 +34,8 @@ function rellenarFormulario(comunidad) {
     document.getElementById("presidente").value = comunidad.presidente;
     document.getElementById("output").value = rellenarTextArea(comunidad);
 
+   // validarBotonPresidente();
+
 }
 
 function obtenerComunidad(nombre) {
@@ -43,10 +45,11 @@ function obtenerComunidad(nombre) {
 function limpiarFormulario() {
     document.getElementById("comunidadForm").reset();
    document.getElementById("output").value = "";
+    // validarBotonPresidente();
 }
 
 function rellenarTextArea(comunidad) {
-    return comunidad.provincias.map(p => `<p>${p.nombre}</p>`).join('');
+    return comunidad.provincias.map(p => p.nombre).join('\n');
 }
 
 document.addEventListener("DOMContentLoaded", () =>{
