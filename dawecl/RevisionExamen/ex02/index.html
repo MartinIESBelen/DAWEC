@@ -1,27 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Paises</title>
+    <title>Países UE - Tus Iniciales</title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-<h1>Paises</h1>
 
 <main>
+    <h1>Países UE - Martín Sierra Godínez</h1>
     <p><strong>Elige un idioma:</strong></p>
-    <input type="checkbox" id="cbIdomaOfi">
-    <label for="cbIdomaOfi">Solo idiomas oficiales:</label>
+    <input type="checkbox" id="cbIdiomaOfi">
+    <label for="cbIdiomaOfi">Solo idiomas oficiales:</label>
+
+    <br><br> <input type="checkbox" id="cbMetropolis">
+    <label for="cbMetropolis">Solo países con gran metrópolis (> 1.500.000 hab.)</label>
 
     <div id="listaPaisesRadio"></div>
 
+    <div id="infoFiltro"></div>
+
     <div id="contenedorPaises">
         <table id="tablaPaises">
+            <thead>
             <tr>
-                <th>País</th>
+                <th id="thPais" style="cursor: pointer;" title="Clic para ordenar">País <span id="flechaPais"></span></th>
                 <th>Capital</th>
-                <th>Población</th>
-                <th>Fecha adhesión</th>
+                <th>Ciudades principales</th>
+                <th id="thPoblacion" style="cursor: pointer;" title="Clic para ordenar">Población <span id="flechaPoblacion"></span> <br><small id="totalPoblacionHeader"></small></th>                <th>Fecha adhesión</th>
             </tr>
+            </thead>
+            <tbody id="cuerpoTablaPaises">
+            </tbody>
         </table>
     </div>
 </main>

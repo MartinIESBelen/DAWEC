@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comunidades - Martín Sierra</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <h1>Comunidades y Ciudades Autónomas de España</h1>
+    <h2 style="color: red">Martín Sierra Godínez</h2>
+    <div>
+        <div class="comunidadesColum">
+            <label>Ordenar por:</label>
+            <select name="ordenarPor" id="ordenarPor">
+                <option value="nombre">Nombre</option>
+                <option value="poblacion">Población</option>
+            </select>
+
+            <ul id="listaComunidad"></ul>
+        </div>
+
+        <div class="formColum">
+            <form id="comunidadForm">
+                <label for="comunidadAut">Comunidad Autónoma:</label>
+                <input type="text" name="comunidadAut" id="comunidadAut">
+
+                <label for="capital">Capital:</label>
+                <input type="text" name="capital" id="capital">
+
+                <label for="presidente">Presidente/a:</label>
+                <input type="text" name="presidente" id="presidente">
+
+                <label for="provincia">Provincias:</label>
+                <textarea type="" name="provincia" id="provincia" placeholder="Selecciona una comunidad para ver sus provincias."></textarea>
+
+                <button id="botonGuardar">Guardar cambios en el Presidente/a</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+<script src="ccaa.js"></script>
+</html>
