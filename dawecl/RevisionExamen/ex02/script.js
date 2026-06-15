@@ -178,6 +178,8 @@ function filtrarTablaPaises(){
 }
 
 
+
+
 document.addEventListener("DOMContentLoaded", () =>{
     pintarRadioIdiomas();
     pintarTablaPaises(datosUE);

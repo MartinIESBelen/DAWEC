@@ -68,6 +68,7 @@ function rellenarFormulario(comunidad) {
 function limpiarFormulario() {
     document.getElementById("comunidadForm").reset();
     document.getElementById("output").value = "";
+    document.getElementById("datos-json").value = "";
     comunidadActual = null;
     validarBotonPresidente();
     ocultarMensajes();
@@ -204,6 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("comunidadesDatos", JSON.stringify(listaComunidadGlobal));
 
             mostrarMensaje("¡Cambios guardados correctamente!", false);
+
+            const textareaJson = document.getElementById("datos-json");
+            textareaJson.value = JSON.stringify(comunidadActual, null, 4);
         }
     });
 });
